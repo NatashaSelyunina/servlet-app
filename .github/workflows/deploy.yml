@@ -18,5 +18,5 @@ jobs:
       - name: Trigger Jenkins Job
         run: |
           curl -X POST "http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token" \
-  -H "Jenkins-Crumb: $CRUMB"
+            -H "Jenkins-Crumb: $CRUMB"
 
