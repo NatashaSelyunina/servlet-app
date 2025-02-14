@@ -13,6 +13,5 @@ public class CustomServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         resp.getWriter().println("<h1>Hello, World! Version 1</h1>");
-        resp.getWriter().println("<h1>Hello, World! Version 2</h1>");
     }
 }
