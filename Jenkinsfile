@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        DEPLOY_HOST = 's402746.foxcdn.ru'
+        DEPLOY_USER = 'root'
+        DEPLOY_PATH = '/opt/tomcat/webapps'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,11 +24,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshagent(['Jenkins-SSH-to-Tomcat']) {
-                    sh """
-                        scp -o StrictHostKeyChecking=no target/*.war root@94.103.12.198:~/deploy/
-                        ssh root@94.103.12.198 'mv ~/deploy/*.war /opt/tomcat/webapps/app.war && systemctl restart tomcat'
-                    """
+                script {
+                    sh "scp target/servlet_1.0-1.0-SNAPSHOT.war ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
+                    sh "ssh ${DEPLOY_USER}@${DEPLOY_HOST} 'sudo systemctl restart tomcat'"
                 }
             }
         }
