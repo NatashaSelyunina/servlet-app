@@ -18,5 +18,6 @@ jobs:
       - name: Trigger Jenkins Job
         run: |
           echo "Using Crumb: $CRUMB"  # Для отладки
+          echo "Curl command: curl -X POST 'http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token' -H 'Jenkins-Crumb: $CRUMB'"  # Показываем полный curl-запрос
           curl -X POST "http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token" \
             -H "Jenkins-Crumb: $CRUMB"  # Используем crumb в запросе
