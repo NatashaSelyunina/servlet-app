@@ -1,23 +1,23 @@
-#name: Deploy to Jenkins
-#
-#on:
-#  push:
-#    branches:
-#      - main
-#
-#jobs:
-#  deploy:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Get Jenkins Crumb
-#        id: get_crumb
-#        run: |
-#          crumb=$(curl -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }} "http://89.179.241.169:8081/crumbIssuer/api/json" | jq -r '.crumb')
-#          echo "CRUMB=$crumb" >> $GITHUB_ENV  # Это сохраняет crumb в переменную окружения
-#
-#      - name: Trigger Jenkins Job
-#        run: |
-#          echo "Using Crumb: $CRUMB"  # Для отладки
-#          echo "Curl command: curl -X POST 'http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token' -H 'Jenkins-Crumb: $CRUMB'"  # Показываем полный curl-запрос
-#          curl -X POST "http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token" \
-#            -H "Jenkins-Crumb: $CRUMB"  # Используем crumb в запросе
+name: Deploy to Jenkins
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Jenkins Crumb
+        id: get_crumb
+        run: |
+          crumb=$(curl -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }} "http://89.179.241.169:8081/crumbIssuer/api/json" | jq -r '.crumb')
+          echo "CRUMB=$crumb" >> $GITHUB_ENV  # Это сохраняет crumb в переменную окружения
+
+      - name: Trigger Jenkins Job
+        run: |
+          echo "Using Crumb: $CRUMB"  # Для отладки
+          echo "Curl command: curl -X POST 'http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token' -H 'Jenkins-Crumb: $CRUMB'"  # Показываем полный curl-запрос
+          curl -X POST "http://89.179.241.169:8081/job/DeployServlet/build?token=my_github_trigger_token" \
+            -H "Jenkins-Crumb: $CRUMB"  # Используем crumb в запросе
